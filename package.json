@@ -1,0 +1,16 @@
+{
+  "name": "eclipse-store-bot",
+  "version": "1.0.0",
+  "description": "Discord storefront and ticket bot for Eclipse",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.4.1",
+    "pg": "^8.11.3"
+  }
+}
