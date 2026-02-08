@@ -1,0 +1,40 @@
+CREATE TABLE IF NOT EXISTS products (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL UNIQUE,
+  price_cents INTEGER NOT NULL,
+  active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE IF NOT EXISTS stock_keys (
+  id SERIAL PRIMARY KEY,
+  product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+  key_text TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'available',
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  sold_at TIMESTAMP NULL
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+  id SERIAL PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE RESTRICT,
+  key_id INTEGER REFERENCES stock_keys(id) ON DELETE SET NULL,
+  status TEXT NOT NULL DEFAULT 'pending',
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  delivered_at TIMESTAMP NULL
+);
+
+CREATE TABLE IF NOT EXISTS tickets (
+  id SERIAL PRIMARY KEY,
+  channel_id TEXT NOT NULL UNIQUE,
+  user_id TEXT NOT NULL,
+  category TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'open',
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  closed_at TIMESTAMP NULL
+);
+
+CREATE TABLE IF NOT EXISTS settings (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL
+);
